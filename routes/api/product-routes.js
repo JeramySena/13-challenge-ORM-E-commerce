@@ -30,7 +30,7 @@ router.get('/:id', (req, res) => {
     },
     include: {
       model: Product,
-      attributes
+      attributes: ['product_name', 'price', 'stock', 'category_id']
     }
   })
   .then((dbProductData) => {
@@ -60,12 +60,12 @@ router.post('/', (req, res) => {
     product_name: req.body.product_name,
     price: req.body.price,
     stock: req.body.stock,
-    tagIds: req.body.tagIds
+    tag_id: req.body.tag_id
   })
     .then((product) => {
       // if there's product tags, we need to create pairings to bulk create in the ProductTag model
-      if (req.body.tagIds.length) {
-        const productTagIdArr = req.body.tagIds.map((tag_id) => {
+      if (req.body.tag_id.length) {
+        const productTagIdArr = req.body.tag_id.map((tag_id) => {
           return {
             product_id: product.id,
             tag_id,
